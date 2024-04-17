@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.Assert;
+import org.springframework.util.ObjectUtils;
+import org.springframework.util.StringUtils;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,16 +36,15 @@ public class UserController {
 	 * @return
 	 */
 	@PostMapping("/join")
-	public ResponseEntity<?>postUser(@RequestBody RequestUser.InputData reqUser){
+	public ResponseEntity<?>postUser(@Validated  @RequestBody RequestUser.InputData reqUser){
 		logger.info("#######PostUserStart########");
-		if(!reqUser.isValidation()){
-			//Bad Request
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-		}
 		userService.insertUser(reqUser);
 		logger.info("#######PostUserend########");
 		return ResponseEntity.status(HttpStatus.CREATED).build();
 
+	}
+	private boolean userValidationCheck(RequestUser.InputData reqUser){
+		return !ObjectUtils.isEmpty(reqUser.getUserId()) && !ObjectUtils.isEmpty(reqUser.getNickname()) && !ObjectUtils.isEmpty(reqUser.getPassword()) ;
 	}
 
 }

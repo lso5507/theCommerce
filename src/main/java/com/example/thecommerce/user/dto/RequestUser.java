@@ -1,5 +1,11 @@
 package com.example.thecommerce.user.dto;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
 import org.springframework.util.Assert;
 
 
@@ -22,9 +28,13 @@ public class RequestUser {
 		}
 
 		//회원id
+		@NotBlank(message="유저아이디는 필수 입력값입니다.")
 		private String userId;
 		//비밀번호
+		@NotBlank(message="비밀번호는 필수 입력값입나디.")
+		@Size(min = 8,message = "비밀번호의 최소 자릿수는 8 입니다.")
 		private String password;
+		@NotBlank(message="닉네임은 필수 입력값입니다.")
 		//닉네임
 		private String nickname;
 		//이름(한글)
@@ -32,9 +42,8 @@ public class RequestUser {
 		//전화번호
 		private String phoneNumber;
 		//이메일주소
+		@Pattern(regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+.[A-Za-z]{2,6}$", message = "이메일 형식에 맞지 않습니다.")
 		private String email;
-		//유효성검사
-		private boolean isValidation=true;
 
 		public String getUserId() {
 			return userId;
@@ -49,7 +58,6 @@ public class RequestUser {
 		}
 
 		public void setPassword(String password) {
-			if(password==null)this.isValidation=false;
 			this.password = password;
 		}
 
@@ -57,12 +65,7 @@ public class RequestUser {
 			return nickname;
 		}
 
-		public boolean isValidation() {
-			return isValidation;
-		}
-
 		public void setNickname(String nickname) {
-			if(nickname==null)this.isValidation=false;
 			this.nickname = nickname;
 		}
 
