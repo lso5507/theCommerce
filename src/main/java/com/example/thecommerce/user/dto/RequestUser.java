@@ -93,5 +93,42 @@ public class RequestUser {
 			this.email = email;
 		}
 	}
+	public static class SearchData{
+		private Integer page;
+		private Integer pageSize;
+		private String sort;
 
+		public SearchData(Integer page, Integer pageSize, String sort) {
+			this.page = page;
+			this.pageSize = pageSize;
+			this.sort = sort;
+		}
+
+		public Integer getPageSize() {
+			return pageSize;
+		}
+
+		public void setPageSize(Integer pageSize) {
+			if(pageSize==null) this.pageSize=10;
+			else this.pageSize = pageSize;
+
+		}
+
+		public String getSort() {
+			return sort;
+		}
+
+		public void setSort(String sort) {
+			this.sort = sort;
+		}
+
+		public Integer getPage() {
+			return page;
+		}
+
+		public void setPage(Integer page) {
+			if(page==null) this.page=0;
+			else this.page = page;
+		}
+	}
 }

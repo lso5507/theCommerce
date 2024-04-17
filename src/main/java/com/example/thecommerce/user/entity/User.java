@@ -1,15 +1,19 @@
 package com.example.thecommerce.user.entity;
 
+import java.util.Map;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.example.thecommerce.global.entity.BasicEntity;
 import com.example.thecommerce.user.dto.RequestUser;
+import com.example.thecommerce.user.dto.ResponseUser;
 
 @Entity(name = "TB_USER")
-public class User {
+public class User  extends BasicEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,6 +37,7 @@ public class User {
 	//이메일주소
 	private String email;
 
+
 	public User(String userId, String password, String nickname, String nameKor, String phoneNumber, String email) {
 		this.userId = userId;
 		this.password = password;
@@ -46,6 +51,26 @@ public class User {
 
 	}
 
+	public String getUserId() {
+		return userId;
+	}
+
+	public String getNickname() {
+		return nickname;
+	}
+
+	public String getNameKor() {
+		return nameKor;
+	}
+
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
 	public static User toEntity(RequestUser.InputData inputData){
 		return new User(
 			inputData.getUserId(),
@@ -56,6 +81,14 @@ public class User {
 			inputData.getEmail()
 		);
 	}
-
+	public ResponseUser toDto(){
+		return new ResponseUser(
+			this.userId,
+			this.nickname,
+			this.nameKor,
+			this.phoneNumber,
+			this.email
+		);
+	}
 
 }

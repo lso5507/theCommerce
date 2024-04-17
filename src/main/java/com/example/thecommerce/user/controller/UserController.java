@@ -1,5 +1,7 @@
 package com.example.thecommerce.user.controller;
 
+import java.util.List;
+
 import org.apache.coyote.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,12 +13,14 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.thecommerce.user.dto.RequestUser;
+import com.example.thecommerce.user.dto.ResponseUser;
 import com.example.thecommerce.user.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -43,8 +47,19 @@ public class UserController {
 		return ResponseEntity.status(HttpStatus.CREATED).build();
 
 	}
-	private boolean userValidationCheck(RequestUser.InputData reqUser){
-		return !ObjectUtils.isEmpty(reqUser.getUserId()) && !ObjectUtils.isEmpty(reqUser.getNickname()) && !ObjectUtils.isEmpty(reqUser.getPassword()) ;
+
+	/**
+	 * 사용자 목록 조회
+	 * @param reqUser
+	 * @return
+	 */
+	@GetMapping("/list")
+	public ResponseEntity<?>selectListUser(@Validated  @ModelAttribute RequestUser.SearchData reqUser){
+		logger.info("#######SelectListUserStart########");
+		List<ResponseUser> responseUsers = userService.selectListUser(reqUser);
+		logger.info("#######SelectListUserend########");
+		return ResponseEntity.status(HttpStatus.OK).body(responseUsers);
+
 	}
 
 }
