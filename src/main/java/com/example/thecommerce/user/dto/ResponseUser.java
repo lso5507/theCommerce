@@ -47,5 +47,4 @@ public class ResponseUser {
 		this.phoneNumber = phoneNumber;
 		this.email = email;
 	}
-
 }

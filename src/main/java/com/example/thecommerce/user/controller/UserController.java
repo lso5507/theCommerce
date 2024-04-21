@@ -20,16 +20,26 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.thecommerce.user.dto.ErrorResponse;
 import com.example.thecommerce.user.dto.RequestUser;
 import com.example.thecommerce.user.dto.ResponseUser;
 import com.example.thecommerce.user.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 /**
  * 사용자 기능을 위한 Controller
  */
 @RestController
 @RequestMapping("/api/user")
+@Tag(name = "Users", description = "User API")
 public class UserController {
 	Logger logger = LoggerFactory.getLogger(UserController.class);
 	@Autowired
@@ -40,6 +50,11 @@ public class UserController {
 	 * @param reqUser
 	 * @return
 	 */
+	@Operation(
+		summary = "회원가입", description = "회원가입 기능구현", responses = {
+		@ApiResponse(responseCode = "200", description = "성공"),
+		@ApiResponse(responseCode = "500", description = "예외발생. 관리자 문의", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+	})
 	@PostMapping("/join")
 	public ResponseEntity<?>postUser(@Validated  @RequestBody RequestUser.InputData reqUser){
 		logger.info("#######PostUserStart########");
@@ -54,6 +69,11 @@ public class UserController {
 	 * @param reqUser
 	 * @return
 	 */
+	@Operation(
+		summary = "사용자 목록 조회", description = "사용자 목록조회 기능구현\n CREATED_ASC::생성일자 오름차순\nNAMEKOR_ASC::이름 오름차순", responses = {
+		@ApiResponse(responseCode = "200", description = "성공"),
+		@ApiResponse(responseCode = "500", description = "예외발생. 관리자 문의", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+	})
 	@GetMapping("/list")
 	public ResponseEntity<?>selectListUser(@Validated  @ModelAttribute RequestUser.SearchData reqUser){
 		logger.info("#######SelectListUserStart########");
@@ -67,6 +87,7 @@ public class UserController {
 	 * @param reqUser
 	 * @return
 	 */
+	@Hidden
 	@GetMapping("/{userId}")
 	public ResponseEntity<?>selectUser(@PathVariable String userId){
 		logger.info("#######SelectListUserStart########");
@@ -78,6 +99,11 @@ public class UserController {
 	/**
 	 * 사용자 정보 수정
 	 */
+	@Operation(
+		summary = "사용자 정보수정", description = "사용자 정보수정 기능구현", responses = {
+		@ApiResponse(responseCode = "200", description = "성공"),
+		@ApiResponse(responseCode = "500", description = "예외발생. 관리자 문의", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+	})
 	@PostMapping("/{userId}")
 	public ResponseEntity<?>updateUser(@PathVariable String userId,@Validated @RequestBody  RequestUser.UpdateData reqUser){
 		logger.info("#######UpdateUserStart########");
