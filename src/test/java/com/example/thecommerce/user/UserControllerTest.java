@@ -6,6 +6,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import org.json.JSONObject;
 import org.junit.jupiter.api.Assertions;
@@ -176,5 +177,44 @@ class UserControllerTest {
 			.andReturn();
 		// check the result
 		Assertions.assertEquals(HttpStatus.OK.value(),result.getResponse().getStatus());
+	}
+	@DisplayName("유저 수정")
+	@Test
+	public void userModify()throws Exception{
+		userService.insertUser(requestList.get(0));
+		requestList.get(0).setNickname("modifiedName");
+		String json = objectMapper.writeValueAsString(requestList.get(0));
+		MvcResult result = mockMvc.perform(post("/api/user/"+requestList.get(0).getUserId())
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(json))
+			.andExpect(status().isOk())
+			.andReturn();
+		Map responseUpdateData = objectMapper.readValue(result.getResponse().getContentAsString(), Map.class);
+		Assertions.assertEquals(requestList.get(0).getNickname(),responseUpdateData.get("nickname"));
+		// check the result
+		// 실제 업데이트 처리가 되었는지 detail 조회로 테스트
+		MvcResult modifiedResult = mockMvc.perform(get("/api/user/"+requestList.get(0).getUserId())
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(json))
+			.andExpect(status().isOk())
+			.andReturn();
+		Map responseSelectData = objectMapper.readValue(result.getResponse().getContentAsString(), Map.class);
+		Assertions.assertEquals(requestList.get(0).getNickname(),responseSelectData.get("nickname"));
+		Assertions.assertEquals(HttpStatus.OK.value(),modifiedResult.getResponse().getStatus());
+	}
+	@DisplayName("유저 수정(패스워드변경)")
+	@Test
+	public void userModifyPassword()throws Exception{
+		userService.insertUser(requestList.get(0));
+		requestList.get(0).setPassword("qwer1234@");
+		String json = objectMapper.writeValueAsString(requestList.get(0));
+		MvcResult result = mockMvc.perform(post("/api/user/"+requestList.get(0).getUserId())
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(json))
+			.andExpect(status().isOk())
+			.andReturn();
+		Map responseUpdateData = objectMapper.readValue(result.getResponse().getContentAsString(), Map.class);
+		Assertions.assertEquals(requestList.get(0).getNickname(),responseUpdateData.get("nickname"));
+
 	}
 }
