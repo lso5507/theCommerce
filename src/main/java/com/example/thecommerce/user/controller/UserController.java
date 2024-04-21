@@ -14,6 +14,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -60,6 +61,29 @@ public class UserController {
 		logger.info("#######SelectListUserend########");
 		return ResponseEntity.status(HttpStatus.OK).body(responseUsers);
 
+	}
+	/**
+	 * 사용자  조회
+	 * @param reqUser
+	 * @return
+	 */
+	@GetMapping("/{userId}")
+	public ResponseEntity<?>selectUser(@PathVariable String userId){
+		logger.info("#######SelectListUserStart########");
+		ResponseUser responseUsers = userService.selectUser(userId);
+		logger.info("#######SelectListUserend########");
+		return ResponseEntity.status(HttpStatus.OK).body(responseUsers);
+
+	}
+	/**
+	 * 사용자 정보 수정
+	 */
+	@PostMapping("/{userId}")
+	public ResponseEntity<?>updateUser(@PathVariable String userId,@Validated @RequestBody  RequestUser.UpdateData reqUser){
+		logger.info("#######UpdateUserStart########");
+		ResponseUser responseUser = userService.updateUser(reqUser, userId);
+		logger.info("#######UpdateUserEnd########");
+		return ResponseEntity.status(HttpStatus.OK).body(responseUser);
 	}
 
 }

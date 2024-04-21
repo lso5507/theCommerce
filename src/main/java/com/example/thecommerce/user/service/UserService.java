@@ -11,4 +11,6 @@ import com.example.thecommerce.user.dto.ResponseUser;
 public interface UserService {
 	public void insertUser(RequestUser.InputData user);
 	public List<ResponseUser> selectListUser(RequestUser.SearchData searchParam);
+	public ResponseUser selectUser(String targetUserid);
+	public ResponseUser updateUser(RequestUser.UpdateData user,String targetUserId);
 }

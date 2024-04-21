@@ -12,7 +12,7 @@ import org.springframework.util.Assert;
 public class RequestUser {
 
 	/**
-	 * 유저 생성,유저 수정 DTO
+	 * 유저 생성,
 	 * @Required(userId,password,nickname)
 	 */
 
@@ -35,6 +35,83 @@ public class RequestUser {
 		@Size(min = 8,message = "비밀번호의 최소 자릿수는 8 입니다.")
 		private String password;
 		@NotBlank(message="닉네임은 필수 입력값입니다.")
+		//닉네임
+		private String nickname;
+		//이름(한글)
+		private String nameKor;
+		//전화번호
+		private String phoneNumber;
+		//이메일주소
+		@Pattern(regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+.[A-Za-z]{2,6}$", message = "이메일 형식에 맞지 않습니다.")
+		private String email;
+
+		public String getUserId() {
+			return userId;
+		}
+
+		public void setUserId(String userId) {
+			this.userId = userId;
+		}
+
+		public String getPassword() {
+			return password;
+		}
+
+		public void setPassword(String password) {
+			this.password = password;
+		}
+
+		public String getNickname() {
+			return nickname;
+		}
+
+		public void setNickname(String nickname) {
+			this.nickname = nickname;
+		}
+
+		public String getNameKor() {
+			return nameKor;
+		}
+
+		public void setNameKor(String nameKor) {
+			this.nameKor = nameKor;
+		}
+
+		public String getPhoneNumber() {
+			return phoneNumber;
+		}
+
+		public void setPhoneNumber(String phoneNumber) {
+			this.phoneNumber = phoneNumber;
+		}
+
+		public String getEmail() {
+			return email;
+		}
+
+		public void setEmail(String email) {
+			this.email = email;
+		}
+	}
+
+	/**
+	 * 유저수정 DTO
+	 */
+	public static class UpdateData{
+		public UpdateData(String userId, String password, String nickname, String nameKor, String phoneNumber,
+			String email) {
+			this.userId = userId;
+			this.password = password;
+			this.nickname = nickname;
+			this.nameKor = nameKor;
+			this.phoneNumber = phoneNumber;
+			this.email = email;
+		}
+
+		//회원id
+		private String userId;
+		//비밀번호
+		private String password;
 		//닉네임
 		private String nickname;
 		//이름(한글)

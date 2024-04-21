@@ -70,6 +70,14 @@ public class User  extends BasicEntity {
 	public String getEmail() {
 		return email;
 	}
+	public void updateUser(RequestUser.UpdateData inputData){
+		this.userId= inputData.getUserId();
+		this.email=inputData.getEmail();
+		this.nameKor=inputData.getNameKor();
+		this.phoneNumber= inputData.getPhoneNumber();;
+		this.nickname= inputData.getNickname();;
+		if(this.password!=null)this.password=inputData.getPassword();
+	}
 
 	public static User toEntity(RequestUser.InputData inputData){
 		return new User(

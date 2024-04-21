@@ -10,4 +10,5 @@ import com.example.thecommerce.user.entity.User;
 @Repository
 public interface UserRepository extends JpaRepository<User,Long> {
 	Slice<User> findSliceBy(Pageable pageable);
+	User findByUserId(String userId);
 }

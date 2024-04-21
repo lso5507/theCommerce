@@ -9,4 +9,5 @@ public  class PasswordUtils {
 	public  String hashPassword(String plainPassword){
 		return BCrypt.hashpw(plainPassword,BCrypt.gensalt());
 	}
+
 }
