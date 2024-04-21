@@ -24,6 +24,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
@@ -64,6 +65,7 @@ class UserControllerTest {
 
 	@DisplayName("회원가입 성공테스트")
 	@Test
+	@Transactional
 	public void userJoin() throws Exception{
 		String json = objectMapper.writeValueAsString(requestList.get(0));
 		MvcResult result = mockMvc.perform(post("/api/user/join")
@@ -76,6 +78,7 @@ class UserControllerTest {
 	}
 	@DisplayName("회원가입 유효성 실패(userId)테스트")
 	@Test
+	@Transactional
 	public void userJoinValidationUserId() throws Exception{
 		requestList.get(0).setUserId(null);
 		String json = objectMapper.writeValueAsString(requestList.get(0));
@@ -89,6 +92,7 @@ class UserControllerTest {
 	}
 	@DisplayName("회원가입 유효성 실패(nickname)테스트")
 	@Test
+	@Transactional
 	public void userJoinValidationNickName() throws Exception{
 		requestList.get(0).setNickname(null);
 		String json = objectMapper.writeValueAsString(requestList.get(0));
@@ -103,6 +107,7 @@ class UserControllerTest {
 
 	@DisplayName("회원가입 유효성 실패(userId)테스트")
 	@Test
+	@Transactional
 	public void userJoinValidationPassword() throws Exception{
 		requestList.get(0).setPassword(null);
 		String json = objectMapper.writeValueAsString(requestList.get(0));
@@ -116,6 +121,7 @@ class UserControllerTest {
 	}
 	@DisplayName("회원가입 유효성 실패(email)테스트")
 	@Test
+	@Transactional
 	public void userJoinValidationEmail() throws Exception{
 		requestList.get(0).setEmail("3242");
 		String json = objectMapper.writeValueAsString(requestList.get(0));
@@ -129,6 +135,7 @@ class UserControllerTest {
 	}
 	@DisplayName("유저목록 조회 테스트(생성날짜 오름차순)")
 	@Test
+	@Transactional
 	public void userSearchCreatedAsc() throws Exception {
 		requestList.forEach(item->userService.insertUser(item));
 		MultiValueMap<String, String> requestParam = new LinkedMultiValueMap<>();
@@ -146,6 +153,7 @@ class UserControllerTest {
 	}
 	@DisplayName("유저목록 조회 테스트(이름 오름차순)")
 	@Test
+	@Transactional
 	public void userSearchNameKorAsc() throws Exception {
 		requestList.forEach(item->userService.insertUser(item));
 		MultiValueMap<String, String> requestParam = new LinkedMultiValueMap<>();
@@ -163,6 +171,7 @@ class UserControllerTest {
 	}
 	@DisplayName("유저목록 조회 테스트 page&&pageSize Is null")
 	@Test
+	@Transactional
 	public void userSearchPageAndPageSizeIsNull() throws Exception {
 		requestList.forEach(item->userService.insertUser(item));
 		MultiValueMap<String, String> requestParam = new LinkedMultiValueMap<>();
@@ -180,6 +189,7 @@ class UserControllerTest {
 	}
 	@DisplayName("유저 수정")
 	@Test
+	@Transactional
 	public void userModify()throws Exception{
 		userService.insertUser(requestList.get(0));
 		requestList.get(0).setNickname("modifiedName");
@@ -204,6 +214,7 @@ class UserControllerTest {
 	}
 	@DisplayName("유저 수정(패스워드변경)")
 	@Test
+	@Transactional
 	public void userModifyPassword()throws Exception{
 		userService.insertUser(requestList.get(0));
 		requestList.get(0).setPassword("qwer1234@");
