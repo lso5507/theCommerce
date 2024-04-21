@@ -9,7 +9,7 @@
 - jbcrypt 0.4
 
 ### Swagger API
-[localhost:8081/](http://localhost:8081/swagger-ui/index.html#/)
+[swagger](http://localhost:8081/swagger-ui/index.html#/)
 
 ### Database
 - H2 Database(In Memory DataBase)
